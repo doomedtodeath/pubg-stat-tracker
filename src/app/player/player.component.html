@@ -1,0 +1,100 @@
+<div style="display: flex">
+  <ng-template [ngIf]="notFound" [ngIfElse]="userFoundTemplate">
+    <p-card [style]="{width: '100%'}" styleClass="shadow-2">
+      User Not Found
+    </p-card>
+  </ng-template>
+  <ng-template #userFoundTemplate>
+    <div style="margin: 1rem 1rem">
+      <p-card [header]="playerName" [subheader]="'Steam'" [style]="{maxWidth: '13rem', marginBottom: '1rem'}"
+              styleClass="shadow-2"></p-card>
+      <p-listbox [options]="contextMenu" [(ngModel)]="index" optionLabel="name" optionValue="value"
+                 [listStyle]="{'width':'13rem'}"></p-listbox>
+    </div>
+
+    <p-tabView [(activeIndex)]="index" [style]="{width: '85%'}">
+      <p-tabPanel>
+        <p-dropdown [options]="seasons" [(ngModel)]="selectedSeason" optionLabel="name" optionValue="_id" (onChange)="seasonChange()"></p-dropdown>
+        <div *ngFor="let mode of gameModesR">
+        <p-card [header]="'Ranked Stats'" [subheader]="mode.toUpperCase()" [style]="{width: '100%', margin: '1rem 0'}" styleClass="shadow-2">
+          <div style="display: flex; flex-wrap: wrap">
+            <div *ngFor="let stat of currentSeasonStat" style="margin: 0.5rem">
+              <ng-template [ngIf]="stat !== 'bestTier' && stat !== 'currentTier'" [ngIfElse]="tierTemplate">
+                <p-card [header]="roundOff(currentSeasonStats[mode][stat])" [subheader]="currentSeasonStatsMapping[stat]"
+                        [style]="{width: '200px', height: '100px'}"
+                        styleClass="shadow-2">
+                </p-card>
+              </ng-template>
+              <ng-template #tierTemplate>
+                <p-card [header]="currentSeasonStats[mode][stat]?.tier + ' ' +currentSeasonStats[mode][stat]?.subTier"
+                        [subheader]="currentSeasonStatsMapping[stat]" [style]="{width: '200px', height: '100px'}"
+                        styleClass="shadow-2">
+                </p-card>
+              </ng-template>
+            </div>
+          </div>
+        </p-card>
+        </div>
+      </p-tabPanel>
+      <p-tabPanel>
+        <div *ngFor="let mode of gameModesLT">
+          <p-card [header]="'Lifetime Stats'" [subheader]="mode.toUpperCase()" [style]="{width: '100%', margin: '1rem 0'}"
+                  styleClass="shadow-2">
+            <div style="display: flex; flex-wrap: wrap">
+              <div *ngFor="let stat of lifetTimeStat" style="margin: 0.5rem">
+                <ng-template [ngIf]="stat !== 'bestTier' && stat !== 'currentTier'" [ngIfElse]="tierTemplate">
+                  <p-card [header]="roundOff(lifeTimeStats[mode][stat])" [subheader]="lifeTimeStatsMapping[stat]"
+                          [style]="{width: '200px', height: '100px'}"
+                          styleClass="shadow-2">
+                  </p-card>
+                </ng-template>
+                <ng-template #tierTemplate>
+                  <p-card [header]="lifeTimeStats[mode][stat]?.tier + ' ' +lifeTimeStats[mode][stat]?.subTier"
+                          [subheader]="lifeTimeStatsMapping[stat]" [style]="{width: '200px', height: '100px'}"
+                          styleClass="shadow-2">
+                  </p-card>
+                </ng-template>
+              </div>
+            </div>
+          </p-card>
+        </div>
+      </p-tabPanel>
+      <p-tabPanel>
+        <div class="card">
+          <p-table [value]="matchData" [tableStyle]="">
+            <ng-template pTemplate="caption">
+              Matches
+            </ng-template>
+            <ng-template pTemplate="header" let-columns>
+              <tr>
+                <th>created at </th>
+                <th>duration</th>
+                <th>matchtype</th>
+                <th>game mode</th>
+                <th>map name</th>
+                <th>kills</th>
+                <th>damageDealt</th>
+                <th>assists</th>
+                <th>winPlace</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-player let-columns="columns">
+              <tr>
+                <td>{{player.createdAt}}</td>
+                <td>{{player.duration}}</td>
+                <td>{{player.matchType}}</td>
+                <td>{{player.gameMode}}</td>
+                <td>{{player.mapName}}</td>
+                <td>{{player.kills}}</td>
+                <td>{{player.damageDealt}}</td>
+                <td>{{player.assists}}</td>
+                <td>{{player.winPlace}}</td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+
+      </p-tabPanel>
+    </p-tabView>
+  </ng-template>
+</div>

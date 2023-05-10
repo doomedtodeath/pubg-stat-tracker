@@ -1,0 +1,8 @@
+
+::ng-deep .p-tabview-nav {
+  display: none!important;
+}
+
+:host ::ng-deep .p-tabview .p-tabview-panels{
+background-color: rgba(255, 0, 0, 0);
+}

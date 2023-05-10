@@ -1,0 +1,29 @@
+<div class="card">
+  <p-table [value]="data" [tableStyle]="{'min-width': '50rem'}">
+    <ng-template pTemplate="caption">
+      Leaderboard
+    </ng-template>
+    <ng-template pTemplate="header" let-columns>
+      <tr>
+        <th>Rank </th>
+        <th>Name</th>
+        <th>Games</th>
+        <th>Wins</th>
+        <th>Kills</th>
+        <th>RP</th>
+        <th>KDA</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-player let-columns="columns">
+      <tr>
+        <td>{{player.attributes.rank}}</td>
+        <td>{{player.attributes.name}}</td>
+        <td>{{player.attributes.stats.games}}</td>
+        <td>{{player.attributes.stats.wins}}</td>
+        <td>{{player.attributes.stats.kills}}</td>
+        <td>{{player.attributes.stats.rankPoints}}</td>
+        <td>{{player.attributes.stats.kda}}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
